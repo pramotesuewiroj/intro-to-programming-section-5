@@ -7,15 +7,10 @@ const tooLowMessage = document.getElementById('too-low');
 const maxGuessesMessage = document.getElementById('max-guesses');
 const numberOfGuessesMessage = document.getElementById('number-of-guesses');
 const correctMessage = document.getElementById('correct');
-const lessThanOneMessage = document.getElementById('less-than-one');
-const moreThanNinetyNineMessage = document.getElementById('more-than-ninety-nine');
 
 let targetNumber;
 let attempts = 0;
 const maxNumberOfAttempts = 5;
-
-const min = 1;
-const max = 99;
 
 // Returns a random number from min (inclusive) to max (exclusive)
 // Usage:
@@ -44,36 +39,18 @@ function checkGuess() {
     guessInput.disabled = true;
   }
 
-  //Check guess must be more than 0
-  if (guess < min) {
-    lessThanOneMessage.style.display = '';
-    attempts = attempts-1;
-  } 
-  // Check guess must be less than 100
-  else if (guess > max) {
-    moreThanNinetyNineMessage.style.display = '';
-    attempts = attempts-1;
+  if (guess !== targetNumber) {
+    if (guess < targetNumber) {
+      tooLowMessage.style.display = '';
+    } else {
+      tooHighMessage.style.display = '';
+    }
+
+    let remainingAttempts = maxNumberOfAttempts - attempts;
+
+    numberOfGuessesMessage.style.display = '';
+    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
   }
-
-  //Guess is not equal to targetNumber
-
-  else if (guess !== targetNumber) {
-         if (guess < targetNumber) {
-           tooLowMessage.style.display = '';
-         } else {
-           tooHighMessage.style.display = '';
-         }
-
-        let remainingAttempts = maxNumberOfAttempts - attempts;
-
-        numberOfGuessesMessage.style.display = '';
-        if (remainingAttempts > 1) {
-         numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
-        } 
-        else {
-         numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guess remaining`;
-        }
-       }
 
   if (attempts === maxNumberOfAttempts) {
     submitButton.disabled = true;
